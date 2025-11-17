@@ -1,4 +1,6 @@
 # Huffman-Coding
+## NAME : SRISHANTH J
+## REG NO : 212223240160
 ## Aim
 To implement Huffman coding to compress the data using Python.
 
@@ -7,120 +9,76 @@ To implement Huffman coding to compress the data using Python.
 
 ## Algorithm:
 ### Step1:
-Step 1: Take the input string from the user. 
-
+Get the input string.
 
 ### Step2:
-Step 2: Calculate the frequency of each character in the string.
+Create tree nodes.
 
 ### Step3:
-Step 3: Build the Huffman Tree using a priority queue based on frequencies.
+Main function to implement huffman coding.
 
 ### Step4:
-Step 4: Traverse the tree to assign binary codes to characters
+calculate frequency of occurence.
 
 ### Step5:
- Step 5: Display the Huffman code for each character.
-
+print the characters and its huffmancode.
  
 ## Program:
-Name : SRISHANTH J
+```
+NAME : SRISHANTH J
 REG NO : 212223240160
+```
 ``` Python
-# Get the input String
-```
-## Get the input String
-     string = 'ARTIFICIAL INTELLIGENCE'
+# expt-11-huffman coding
 
-    class NodeTree(object):
-    def __init__(self, left=None, right=None): 
-        self.left = left
-        self.right=right
-    def children(self):
-        return (self.left,self.right)
-    def nodes (self):
-        return (self.left,self.right)
-    def __str__(self):
-        return '%s %s' %(self.left,self.right)
-
-     
-
-
-# Create tree nodes
-```
-## Create tree nodes
-def huffman_code_tree (node, left=True, binString=''):
-    if type(node) is str:
-        return {node: binString}
-    (l, r) = node.children()
-    d = dict()
-    d.update(huffman_code_tree (l, True, binString + '0'))
-    d.update(huffman_code_tree (r, False, binString + '1'))
-    return d
-```
-
-
-# Main function to implement huffman coding
-```
-## Main function to implement huffman coding
-freq = {}
-for c in string:
-    if c in freq:
-        freq[c] += 1
+# Step 1: Get the input string
+input_string = "Prem Singh Dhoni"  # Example input string
+# Step 2: Calculate frequency of each character in the input string
+frequency = {}
+for char in input_string:
+    if char in frequency:
+        frequency[char] += 1
     else:
-        freq[c] = 1
-freq = sorted(freq.items(), key=lambda x: x[1], reverse=True)
-nodes = freq
-```
-
-
-# Calculate frequency of occurrence
-```
-## Calculate frequency of occurrence
+        frequency[char] = 1
+# Step 3: Create tree nodes
+nodes = [[char, freq] for char, freq in frequency.items()]
+# Step 4: Main function to implement Huffman coding
 while len(nodes) > 1:
-    (key1, c1) = nodes[-1]
-    (key2, c2) = nodes[-2]
-    nodes = nodes[:-2]
-    node = NodeTree(key1, key2)
-    nodes.append((node, c1 + c2))
-    nodes = sorted(nodes, key=lambda x: x[1], reverse=True)
+    # Sort nodes based on frequency
+    nodes = sorted(nodes, key=lambda x: x[1])
+
+    # Pick two smallest nodes
+    left = nodes.pop(0)
+    right = nodes.pop(0)
+
+    # Create a new node with combined frequency
+    new_node = [[left, right], left[1] + right[1]]
+    nodes.append(new_node)
+
+# The final node is the Huffman tree
+huffman_tree = nodes[0]
+# Step 5: Generate Huffman codes
+huffman_codes = {}
+
+def generate_codes(tree, code=""):
+    if isinstance(tree[0], str):  # If it's a leaf node
+        huffman_codes[tree[0]] = code
+    else:  # If it's an internal node, recurse
+        generate_codes(tree[0][0], code + "0")
+        generate_codes(tree[0][1], code + "1")
+
+generate_codes(huffman_tree)
+# Step 6: Print the characters and their Huffman codes
+print("Character | Huffman Code")
+print("-------------------------")
+for char, code in huffman_codes.items():
+    print(f"    {char}    |    {code}")
 ```
-
-
-
-# Print the characters and its huffmancode
-```
-## Print the characters and its huffmancode
-huffmanCode = huffman_code_tree(nodes[0][0])
-print(' Char | Huffman code ') 
-print('----------------------')
-for (char, frequency) in freq:
-    print('%-4r|%12s' % (char, huffmanCode[char]))
-```
-
-
-
-
-
 ## Output:
-```
- Char | Huffman code 
-----------------------
-'I'  |          01
-'L'  |         101
-'E'  |         100
-'A'  |        1101
-'T'  |        1100
-'C'  |        1111
-'N'  |        1110
-'R'  |        0001
-'F'  |        0000
-' '  |        0011
-'G'  |        0010
 
-```
+### Print the characters and its huffmancode
 
-
+![image](https://github.com/user-attachments/assets/2693632c-f6bd-43bf-9cda-fb045404af97)
 
 ## Result
 Thus the huffman coding was implemented to compress the data using python programming.
